@@ -1,0 +1,4 @@
+cd into igClone
+npm run dev
+php artisan serve
+open up localhost on port:8000
