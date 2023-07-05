@@ -21,7 +21,7 @@ export default function Authenticated({ user, children }) {
                                 <Link href="/">
                                     <ApplicationLogo className="inline-block pr-3 h-9 w-auto fill-current text-gray-800" />
                                     <p className="pl-3 inline-block border-l-2">
-                                        Muski Marketplace
+                                        MyMarketplace
                                     </p>
                                 </Link>
                             </div>
