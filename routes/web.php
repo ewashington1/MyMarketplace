@@ -65,6 +65,9 @@ Route::get('/home', function() {
 
 Route::get('/home', [PostsController::class, 'index'])->name('home');
 
+//explore
+Route::get('/explore', [PostsController::class, 'indexAll'])->name('explore');
+
 //search
 Route::get('/search', function() {
     return Inertia::render('LoggedInPages/Search');

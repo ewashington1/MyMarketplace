@@ -9,7 +9,7 @@ const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
 
 createInertiaApp({
-    title: (title) => `${title} - Mumu Marketplace`,
+    title: (title) => `${title} - My Marketplace`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.jsx`,

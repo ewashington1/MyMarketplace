@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Link, Head } from "@inertiajs/react";
-
+// repeat?
 export default function Index({ auth }) {
     return (
         <AuthenticatedLayout user={auth.user}>

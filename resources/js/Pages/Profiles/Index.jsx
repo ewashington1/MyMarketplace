@@ -21,31 +21,37 @@ function showPostImages({ user }) {
     );
 }
 
-const follow = (e, user) => {
-    e.preventDefault();
-
-    axios
-        .post(`/follow/${user.id}`)
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-};
-
 export default function Profile({ auth, user, follows, followers, following }) {
     const [isFollowing, setIsFollowing] = useState(follows);
     const [followersDisplay, setFollowers] = useState(followers);
 
-    const handleClick = (event) => {
-        setIsFollowing(!isFollowing);
-        if (!isFollowing) {
-            setFollowers(followersDisplay + 1);
-        } else {
-            setFollowers(followersDisplay - 1);
-        }
+    const follow = (e, user) => {
+        e.preventDefault();
+
+        axios
+            .post(`/follow/${user.id}`)
+            .then((response) => {
+                console.log(response);
+                setIsFollowing(!isFollowing);
+                if (!isFollowing) {
+                    setFollowers(followersDisplay + 1);
+                } else {
+                    setFollowers(followersDisplay - 1);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
+
+    // const handleClick = (event) => {
+    //     setIsFollowing(!isFollowing);
+    //     if (!isFollowing) {
+    //         setFollowers(followersDisplay + 1);
+    //     } else {
+    //         setFollowers(followersDisplay - 1);
+    //     }
+    // };
     return (
         <AuthenticatedLayout user={auth.user}>
             {/* default dashboard */}
@@ -80,7 +86,6 @@ export default function Profile({ auth, user, follows, followers, following }) {
                                 <FollowButton
                                     follows={isFollowing}
                                     className=" fill-blue-500"
-                                    onClick={handleClick}
                                 >
                                     {isFollowing ? "Following" : "Follow"}
                                 </FollowButton>

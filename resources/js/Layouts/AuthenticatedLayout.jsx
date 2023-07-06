@@ -169,6 +169,14 @@ export default function Authenticated({ user, children }) {
                     <div className="inline-block">
                         <Link
                             className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
+                            href={route("explore")}
+                        >
+                            Explore
+                        </Link>
+                    </div>
+                    <div className="inline-block">
+                        <Link
+                            className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
                             href={route("search")}
                         >
                             Search

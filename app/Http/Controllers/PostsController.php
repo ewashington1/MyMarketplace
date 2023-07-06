@@ -42,6 +42,24 @@ class PostsController extends Controller
         return Inertia::render('Posts/Index')->with(compact(['posts']));
     }
 
+    public function indexAll() {
+        $users = User::pluck('id');
+
+        $posts = Post::whereIn('user_id', $users)->with('user')->latest()->get(); //user id is in users
+
+        if (sizeof($posts) == 0) {
+            $allProfiles = Profile::all()->load(['user', 'user.posts']);
+            return Inertia::render('LoggedInPages/UsersPreview')->with(compact('allProfiles'));
+        }
+
+        foreach ($posts as &$post) {
+            $user = $post->user;
+            $user->load('profile'); // Load the "profile" relation for the user
+        }
+
+        return Inertia::render('Posts/Index')->with(compact(['posts']));
+    }
+
     public function store() {
         $data = request()
         ->validate([
