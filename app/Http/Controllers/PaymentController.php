@@ -44,7 +44,7 @@ class PaymentController extends Controller
 
 
             if ($response->isRedirect()) {
-                $redirectUrl = $response->getRedirectUrl(); 
+                $redirectUrl = $response->getRedirectUrl();
                 return Inertia::location($redirectUrl);
             }
             
@@ -52,8 +52,8 @@ class PaymentController extends Controller
                 return $response->getMessage();
             }
 
-        } catch (\Throwable $th) {
-            return $th->getMessage();
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
     }
 
@@ -101,16 +101,16 @@ class PaymentController extends Controller
 
             }
             else{
-                return $response->getMessage();
+                return Inertia::render('Posts/PaymentFailure')->with(['message'=> $response->getMessage()]);
             }
         }
         else{
-            return 'Payment declined!!';
+            return Inertia::render('Posts/PaymentFailure')->with(['message'=> 'Payment declined.']);
         }
     }
 
     public function error()
     {
-        return 'User declined the payment!';   
+        return Inertia::render('Posts/PaymentFailure')->with(['message'=> 'There was an error with your payment.']);
     }
 }

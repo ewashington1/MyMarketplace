@@ -3,7 +3,6 @@ import { format, formatDistance, formatRelative } from "date-fns";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { useEffect } from "react";
 import SecondSecondaryButton from "@/Components/SecondSecondaryButton";
-// import axios from "axios";
 
 function buyBtn(auth, post) {
     if (post.price !== 0 && auth.user.id !== post.user.id) {
@@ -17,11 +16,6 @@ function buyBtn(auth, post) {
             </SecondSecondaryButton>
         );
     }
-    // } else {
-    //     return (
-    //         <PrimaryButton type="submit">Owned at ${post.price}</PrimaryButton>
-    //     );
-    // }
 }
 
 export default function OnePost({ auth, postP }) {
@@ -41,6 +35,7 @@ export default function OnePost({ auth, postP }) {
             post(route("payment", data));
         }
     }, [data.amount]);
+
     return (
         <div className="col-span-5 col-start-3 h-full m-auto pt-4">
             <img src={`/storage/${postP.image}`} alt="post" />
