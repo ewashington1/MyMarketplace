@@ -19,8 +19,6 @@ class PaymentController extends Controller
         $this->gateway->setTestMode(true);
     }
 
-    
-
     public function pay(Request $request)
     {
         $payer_id = $request->user_id;
@@ -33,9 +31,7 @@ class PaymentController extends Controller
 
             $response = $this->gateway->purchase([
                 'amount' => $request->amount,
-                // 'post_id' => $request->post_id,
                 'currency' => env('PAYPAL_CURRENCY'),
-                // 'user_id' => $request->user_id,
                 'returnUrl' => url('success'),
                 'cancelUrl' => url('error')
             ])
@@ -74,10 +70,6 @@ class PaymentController extends Controller
 
                 $payer_id = session('payer_id');
                 $post_id = session('post_id');
-                // dd([$payer_id, $post_id]);
-
-
-                
 
                 $payment = new Payment();
                 $payment->payment_id = $arr['id'];
@@ -89,14 +81,9 @@ class PaymentController extends Controller
 
                 $payment->save();
 
-
-
                 Post::where('id', $post_id)->update(array('user_id' => $payer_id));
                 $p = Post::where('id', $post_id)->get();
 
-                // dd($p);
-
-                // return "Payment is Successful. Your Transaction Id is : " . $arr['id'];
                 return Inertia::render('Posts/PaymentSuccess')->with(['pId' => $arr['id']]);
 
             }
