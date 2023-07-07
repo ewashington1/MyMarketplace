@@ -39,26 +39,29 @@ class PostsController extends Controller
         return Inertia::render('Posts/Index')->with(compact(['posts']));
     }
 
-    public function indexAll() {
+    // not used any more, replaced with explore function (which doesnt follow naming convention btw)
+    // public function indexAll() {
 
-        $posts = Post::with('user')->latest()->get(); //user id is in users
+    //     $posts = Post::with('user')->latest()->get(); //user id is in users
 
-        if (sizeof($posts) == 0) {
-            $allProfiles = Profile::all()->load(['user', 'user.posts']);
-            return Inertia::render('LoggedInPages/UsersPreview')->with(compact('allProfiles'));
-        }
+    //     if (sizeof($posts) == 0) {
+    //         $allProfiles = Profile::all()->load(['user', 'user.posts']);
+    //         return Inertia::render('LoggedInPages/UsersPreview')->with(compact('allProfiles'));
+    //     }
 
-        $posts->load('user.profile');
+    //     $posts->load('user.profile');
 
-        return Inertia::render('Posts/Index')->with(compact(['posts']));
-    }
+    //     return Inertia::render('Posts/Index')->with(compact(['posts']));
+    // }
 
     public function explore() {
         $initPosts = Post::latest()->take(9)->get();
 
         $initPostCount = 9;
 
-        return Inertia::render('Posts/Explore')->with(compact(['initPosts', 'initPostCount']));
+        $totalPostCount = Post::count();
+
+        return Inertia::render('Posts/Explore')->with(compact(['initPosts', 'initPostCount', 'totalPostCount']));
     }
 
     public function add3Explore(Request $request) {
