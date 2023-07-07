@@ -57,16 +57,10 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/follow/{user}', [FollowsController::class, 'store'])->name('follow.user');
 
-
-//home
-Route::get('/home', function() {
-    return Inertia::render('LoggedInPages/Home');
-})->middleware(['auth', 'verified'])->name('home');
-
 Route::get('/home', [PostsController::class, 'index'])->name('home');
 
 //explore
-Route::get('/explore', [PostsController::class, 'indexAll'])->name('explore');
+Route::get('/explore', [PostsController::class, 'explore'])->name('explore');
 
 //search
 Route::get('/search', function() {
@@ -111,11 +105,14 @@ Route::post('/search', [SearchController::class, 'index'])->name('searchCompleti
 Route::get('/post/create', [PostsController::class, 'create'])->name('post.create');
 Route::post('/post', [PostsController::class, 'store'])->name('post');
 
-Route::get('post/{post}', [PostsController::class, 'show'])->name('post.show');
+Route::get('/post/{post}', [PostsController::class, 'show'])->name('post.show');
 
 Route::post('pay', [PaymentController::class, 'pay'])->name('payment');
 Route::get('success', [PaymentController::class, 'success']);
 Route::get('error', [PaymentController::class, 'error']);
+
+Route::get('/add3', [PostsController::class, 'add3Explore']);
+
 
 // Route::get('/paymentSuccess', function() {
 //     return Inertia::render('Posts/Search')->with(compact(['categories']));

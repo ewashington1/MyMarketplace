@@ -34,30 +34,39 @@ class PostsController extends Controller
             return Inertia::render('LoggedInPages/UsersPreview')->with(compact('allProfiles'));
         }
 
-        foreach ($posts as &$post) {
-            $user = $post->user;
-            $user->load('profile'); // Load the "profile" relation for the user
-        }
+        $posts->load('user.profile'); 
 
         return Inertia::render('Posts/Index')->with(compact(['posts']));
     }
 
     public function indexAll() {
-        $users = User::pluck('id');
 
-        $posts = Post::whereIn('user_id', $users)->with('user')->latest()->get(); //user id is in users
+        $posts = Post::with('user')->latest()->get(); //user id is in users
 
         if (sizeof($posts) == 0) {
             $allProfiles = Profile::all()->load(['user', 'user.posts']);
             return Inertia::render('LoggedInPages/UsersPreview')->with(compact('allProfiles'));
         }
 
-        foreach ($posts as &$post) {
-            $user = $post->user;
-            $user->load('profile'); // Load the "profile" relation for the user
-        }
+        $posts->load('user.profile');
 
         return Inertia::render('Posts/Index')->with(compact(['posts']));
+    }
+
+    public function explore() {
+        $initPosts = Post::latest()->take(9)->get();
+
+        $initPostCount = 9;
+
+        return Inertia::render('Posts/Explore')->with(compact(['initPosts', 'initPostCount']));
+    }
+
+    public function add3Explore(Request $request) {
+        $curCount = $request->curCount;
+
+        $next3 = Post::latest()->skip($curCount)->take(3)->get();
+
+        return $next3;
     }
 
     public function store() {
@@ -70,13 +79,23 @@ class PostsController extends Controller
 
         $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200,1200);
         $image->save();
-
-        auth()->user()->posts()->create([
-            'caption' => request('caption'),
-            'image' => $imagePath,
-            'categories' => implode(request('categories')),
-            'price' => request('price')
-        ]);
+        
+        if (request()->categories != null) {
+            auth()->user()->posts()->create([
+                'caption' => request('caption'),
+                'image' => $imagePath,
+                'categories' => implode(request('categories')),
+                'price' => request('price')
+            ]);
+        }
+        else {
+            auth()->user()->posts()->create([
+                'caption' => request('caption'),
+                'image' => $imagePath,
+                'price' => request('price')
+            ]);
+        }
+        
         
         return redirect('/profile/' . auth()->user()->id);
 
