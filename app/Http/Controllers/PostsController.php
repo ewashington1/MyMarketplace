@@ -64,12 +64,12 @@ class PostsController extends Controller
         return Inertia::render('Posts/Explore')->with(compact(['initPosts', 'initPostCount', 'totalPostCount']));
     }
 
-    public function add3Explore(Request $request) {
+    public function addPostsExplore(Request $request) {
         $curCount = $request->curCount;
 
-        $next3 = Post::latest()->skip($curCount)->take(3)->get();
+        $nextPosts = Post::latest()->skip($curCount)->take(3)->get();
 
-        return $next3;
+        return $nextPosts;
     }
 
     public function store() {

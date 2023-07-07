@@ -111,7 +111,7 @@ Route::post('pay', [PaymentController::class, 'pay'])->name('payment');
 Route::get('success', [PaymentController::class, 'success']);
 Route::get('error', [PaymentController::class, 'error']);
 
-Route::get('/add3', [PostsController::class, 'add3Explore']);
+Route::get('/addPosts', [PostsController::class, 'addPostsExplore']);
 
 
 // Route::get('/paymentSuccess', function() {
