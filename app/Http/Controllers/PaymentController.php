@@ -78,6 +78,8 @@ class PaymentController extends Controller
                 $payment->amount = $arr['transactions'][0]['amount']['total'];
                 $payment->currency = env('PAYPAL_CURRENCY');
                 $payment->payment_status = $arr['state'];
+                $payment->user_id = $payer_id;
+                $payment->post_id = $post_id;
 
                 $payment->save();
 

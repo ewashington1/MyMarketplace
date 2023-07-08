@@ -19,6 +19,8 @@ return new class extends Migration
             $table->float('amount', 8, 2);
             $table->string('currency');
             $table->string('payment_status');
+            $table->unsignedBigInteger('post_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }
