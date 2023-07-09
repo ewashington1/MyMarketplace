@@ -21,11 +21,13 @@ class PaymentController extends Controller
 
     public function pay(Request $request)
     {
-        $payer_id = $request->user_id;
+        $payer_id = $request->buyer_id;
         $post_id = $request->post_id;
+        $seller_id = $request->seller_id;
     
         session(['payer_id' => $payer_id]);
         session(['post_id' => $post_id]);
+        session(['seller_id' => $seller_id]);
 
         try {
 
@@ -70,6 +72,7 @@ class PaymentController extends Controller
 
                 $payer_id = session('payer_id');
                 $post_id = session('post_id');
+                $seller_id = session('seller_id');
 
                 $payment = new Payment();
                 $payment->payment_id = $arr['id'];
@@ -78,8 +81,9 @@ class PaymentController extends Controller
                 $payment->amount = $arr['transactions'][0]['amount']['total'];
                 $payment->currency = env('PAYPAL_CURRENCY');
                 $payment->payment_status = $arr['state'];
-                $payment->user_id = $payer_id;
+                $payment->buyer_id = $payer_id;
                 $payment->post_id = $post_id;
+                $payment->seller_id = $seller_id;
 
                 $payment->save();
 

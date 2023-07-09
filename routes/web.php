@@ -73,14 +73,10 @@ Route::get('/categories', function() {
 })->middleware(['auth', 'verified'])->name('categories');
 
 //purchases
-Route::get('/purchases', function() {
-    return Inertia::render('LoggedInPages/Purchases');
-})->middleware(['auth', 'verified'])->name('purchases');
+Route::get('/purchases', [PostsController::class, 'purchases'])->middleware(['auth', 'verified'])->name('purchases');
 
 //sales
-Route::get('/sales', function() {
-    return Inertia::render('LoggedInPages/Sales');
-})->middleware(['auth', 'verified'])->name('sales');
+Route::get('/sales', [PostsController::class, 'sales'])->middleware(['auth', 'verified'])->name('sales');
 
 //notification
 Route::get('/notification', function() {

@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('currency');
             $table->string('payment_status');
             $table->unsignedBigInteger('post_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('buyer_id');
+            $table->unsignedBigInteger('seller_id');
             $table->timestamps();
         });
     }

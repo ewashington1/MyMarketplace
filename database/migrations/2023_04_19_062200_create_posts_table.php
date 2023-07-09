@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('caption');
             $table->string('image');
             $table->string('categories')->nullable();
+            $table->float('price', 8, 2);
+            $table->index('user_id'); //you could delete all posts and profile when user is deleted in laravel with "cascading"
             $table->timestamps();
 
-            $table->index('user_id'); //you could delete all posts and profile when user is deleted in laravel with "cascading"
         });
     }
 

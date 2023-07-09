@@ -22,12 +22,13 @@ export default function OnePost({ auth, postP }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         amount: "",
         post_id: postP.id,
-        user_id: auth.user.id,
+        buyer_id: auth.user.id,
+        seller_id: postP.user_id,
     });
 
     const pay = (e, value) => {
         e.preventDefault();
-        setData({ amount: value, post_id: postP.id, user_id: auth.user.id });
+        setData({ amount: value, post_id: postP.id, buyer_id: auth.user.id, seller_id: postP.user_id });
     };
 
     useEffect(() => {

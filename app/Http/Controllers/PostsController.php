@@ -10,6 +10,8 @@ use Intervention\Image\Facades\Image;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Profile;
+use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
@@ -87,7 +89,7 @@ class PostsController extends Controller
             auth()->user()->posts()->create([
                 'caption' => request('caption'),
                 'image' => $imagePath,
-                'categories' => implode(request('categories')),
+                'categories' => implode('_', request('categories')), //make sure to change function that checks categories of posts
                 'price' => request('price')
             ]);
         }
@@ -116,5 +118,17 @@ class PostsController extends Controller
         $user = $post->user->load('profile');
 
         return Inertia::render('Posts/Show')->with(compact(['post', 'user'])); //same as Inertia::render('Posts/Show')->with(['post'=>$post]);
+    }
+
+    public function sales() {
+        $sales = Payment::where('seller_id', Auth::id())->get();
+
+        return Inertia::render('Posts/Sales')->with(compact(['sales']));
+    }
+
+    public function purchases() {
+        $purchases = Payment::where('buyer_id', Auth::id())->get();
+
+        return Inertia::render('Posts/Purchases')->with(compact(['purchases']));
     }
 }

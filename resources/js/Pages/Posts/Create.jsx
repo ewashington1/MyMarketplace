@@ -28,16 +28,6 @@ export default function Create({ auth, categories }) {
         }
     };
 
-    const click = () => {
-        let j = "";
-
-        for (let i = 0; i < data.categories.length; i++) {
-            j += data.categories[i] + ",";
-        }
-
-        alert(j);
-    };
-
     const submit = (e) => {
         e.preventDefault();
 
