@@ -69,7 +69,8 @@ Route::get('/search', function() {
 
 //categories
 Route::get('/categories', function() {
-    return Inertia::render('LoggedInPages/Categories');
+    $categories = Category::get();
+    return Inertia::render('Posts/Categories')->with(compact(['categories']));
 })->middleware(['auth', 'verified'])->name('categories');
 
 //purchases
@@ -107,18 +108,11 @@ Route::post('pay', [PaymentController::class, 'pay'])->name('payment');
 Route::get('success', [PaymentController::class, 'success']);
 Route::get('error', [PaymentController::class, 'error']);
 
+//try to use api for the following functions
 Route::get('/addPosts', [PostsController::class, 'addPostsExplore']);
 
-
-// Route::get('/paymentSuccess', function() {
-//     return Inertia::render('Posts/Search')->with(compact(['categories']));
-// })->name('payment.success');
-
-// Route::get('handle-payment', 'PayPalPaymentController@handlePayment')->name('make.payment');
-
-// Route::get('cancel-payment', 'PayPalPaymentController@paymentCancel')->name('cancel.payment');
-
-// Route::get('payment-success', 'PayPalPaymentController@paymentSuccess')->name('success.payment');
+//filter for categories (use api)
+Route::get('/filter', [SearchController::class, 'categoryIndex']);
 
 
 require __DIR__.'/auth.php';

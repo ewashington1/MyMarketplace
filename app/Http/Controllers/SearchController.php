@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Inertia\Inertia;
+use Illuminate\Database\Eloquent\Builder;
 
 class SearchController extends Controller
 {
@@ -45,11 +46,25 @@ class SearchController extends Controller
             }
         }
 
-
-
         return Inertia::render('Posts/Index')->with(compact(['posts']));
+    }
 
+    //this is probably terrible runtime tbh
+    public function categoryIndex(Request $request) {
 
+        $categories = $request->categories;
 
+        $posts = Post::where(function ($query) use ($categories) {
+            foreach ($categories as &$cat) {
+                //whereRaw uses raw sql and locate is basically like indexOf
+                $query->whereRaw('LOCATE(?, categories) > 0', $cat);
+            }
+        })->latest()->take(9)->get();
+
+        if (count($posts) === 0) {
+            return "No posts with matching categories:";
+        }
+
+        return $posts;
     }
 }
