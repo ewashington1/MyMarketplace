@@ -208,10 +208,10 @@ export default function Authenticated({ user, children }) {
                     </div>
                     <div className="inline-block ">
                         <Link
-                            className="text-red-400 pointer-events-none max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
-                            href={route("notification")}
+                            className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
+                            href={route("notificationss")}
                         >
-                            (Notifications)
+                            Notifications
                         </Link>
                     </div>
                 </div>

@@ -122,7 +122,9 @@ export default function Create({ auth, categories }) {
                     </SecondSecondaryButton> */}
 
                     <div className="flex items-center justify-end mt-4">
-                        <PrimaryButton className="ml-4" disabled={processing}>
+                        <PrimaryButton
+                            className="ml-4" /*disabled={processing}*/
+                        >
                             Post
                         </PrimaryButton>
                     </div>

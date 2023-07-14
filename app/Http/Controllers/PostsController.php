@@ -29,16 +29,29 @@ class PostsController extends Controller
     public function index() {
         $users = auth()->user()->following()->pluck('profiles.user_id');
 
-        $posts = Post::whereIn('user_id', $users)->with('user')->latest()->get(); //user id is in users
+        $initPosts = Post::whereIn('user_id', $users)->with('user')->latest()->take(9)->get(); //user id is in users
 
-        if (sizeof($posts) == 0) {
+        if (sizeof($initPosts) == 0) {
             $allProfiles = Profile::all()->load(['user', 'user.posts']);
             return Inertia::render('LoggedInPages/UsersPreview')->with(compact('allProfiles'));
         }
 
-        $posts->load('user.profile'); 
+        $initPosts->load('user.profile'); 
 
-        return Inertia::render('Posts/Index')->with(compact(['posts']));
+        $initPostCount = 9;
+
+        $totalPostCount = Post::count();
+        return Inertia::render('Posts/Index')->with(compact(['initPosts', 'initPostCount', 'totalPostCount']));
+    }
+
+    public function addPostsHome(Request $request) {
+        $users = auth()->user()->following()->pluck('profiles.user_id');
+
+        $curCount = $request->curCount;
+
+        $nextPosts = Post::whereIn('user_id', $users)->with('user', 'user.profile')->latest()->skip($curCount)->take(3)->get();
+
+        return $nextPosts;
     }
 
     // not used any more, replaced with explore function (which doesnt follow naming convention btw)

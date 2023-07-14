@@ -58,6 +58,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Profile::class);
     }
 
+    public function notifications() {
+        return $this->hasMany(Notification::class);
+    }
+
     public static function boot() {
         parent::boot();
         static::created(function ($user) {

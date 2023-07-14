@@ -28,20 +28,14 @@ const Explore = ({ auth, initPosts, initPostCount, totalPostCount }) => {
                 .then((response) => {
                     if (response.data != null) {
                         curCount.current = curCount.current + 3;
-
-                        const newPosts = response.data.map(
-                            (post) => (
-                                <Link
-                                    href={`/post/${post.id}`}
-                                    key={post.id}
-                                >
-                                    <img
-                                        src={`/storage/${post.image}`}
-                                        alt="post"
-                                    />
-                                </Link>
-                            )
-                        );
+                        const newPosts = response.data.map((post) => (
+                            <Link href={`/post/${post.id}`} key={post.id}>
+                                <img
+                                    src={`/storage/${post.image}`}
+                                    alt="post"
+                                />
+                            </Link>
+                        ));
                         setPosts([...posts, ...newPosts]);
                     }
                 })
@@ -59,18 +53,25 @@ const Explore = ({ auth, initPosts, initPostCount, totalPostCount }) => {
     // </div>
     // <button onClick={renderMore}>Load More...</button>
 
-    // how to get unique key?
-    // this can be implemeted into home page aswell, I will do later hella tired
-    // could not figure out how to fix the css u did sorry :/
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title="Explore"/>
+            <Head title="Explore" />
             <div className="w-3/5 pb-2 pt-2 m-auto">
                 <InfiniteScroll
                     dataLength={posts.length}
                     next={renderMore}
                     hasMore={hasMore}
-                    loader={<div className=" text-lg text-center h-12">Loading more posts...&nbsp;<LoadingCircle /></div>}
+                    loader={
+                        <div className=" text-lg text-center h-12">
+                            Loading more posts...&nbsp;
+                            <LoadingCircle />
+                        </div>
+                    }
+                    endMessage={
+                        <div className="text-lg text-center h-12">
+                            You are up to date.
+                        </div>
+                    }
                 >
                     <div className="grid grid-cols-3 gap-1">
                         {posts.map((post, index) => (
@@ -83,7 +84,6 @@ const Explore = ({ auth, initPosts, initPostCount, totalPostCount }) => {
             </div>
         </AuthenticatedLayout>
     );
-}    
-
+};
 
 export default Explore;

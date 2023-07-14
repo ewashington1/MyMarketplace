@@ -4,6 +4,8 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\NotificationsController;
+
 
 use App\Http\Controllers\FollowsController;
 use Illuminate\Foundation\Application;
@@ -110,9 +112,12 @@ Route::get('error', [PaymentController::class, 'error']);
 
 //try to use api for the following functions
 Route::get('/addPosts', [PostsController::class, 'addPostsExplore']);
+Route::get('/addPosts2', [PostsController::class, 'addPostsHome']);
 
 //filter for categories (use api)
 Route::get('/filter', [SearchController::class, 'categoryIndex']);
+
+Route::get('/notifications', [NotificationsController::class, 'index'])->name('notificationss');
 
 
 require __DIR__.'/auth.php';

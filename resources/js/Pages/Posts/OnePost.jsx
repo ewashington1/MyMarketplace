@@ -25,10 +25,15 @@ export default function OnePost({ auth, postP }) {
         buyer_id: auth.user.id,
         seller_id: postP.user_id,
     });
-
+    //if (postP.user == null || postP.user.id == null) return;
     const pay = (e, value) => {
         e.preventDefault();
-        setData({ amount: value, post_id: postP.id, buyer_id: auth.user.id, seller_id: postP.user_id });
+        setData({
+            amount: value,
+            post_id: postP.id,
+            buyer_id: auth.user.id,
+            seller_id: postP.user_id,
+        });
     };
 
     useEffect(() => {
