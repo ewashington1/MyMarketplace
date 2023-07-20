@@ -13,12 +13,18 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('profile_id');
+            $table->unsignedBigInteger('receiver_id');
+            // $table->unsignedBigInteger('profile_id');
             $table->string('message');
             $table->boolean('read');
             $table->timestamps();
-            $table->index('user_id');
+            $table->index('receiver_id');
+            
+            //post_id for eloquent relationships between post and noti
+            $table->unsignedBigInteger('post_id')->nullable();
+
+            //actor for eloquent relationships between actor (user who made action) and notification
+            $table->unsignedBigInteger('actor_id')->nullable();
         });
     }
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\LikesController;
 
 
 use App\Http\Controllers\FollowsController;
@@ -82,17 +83,15 @@ Route::get('/purchases', [PostsController::class, 'purchases'])->middleware(['au
 Route::get('/sales', [PostsController::class, 'sales'])->middleware(['auth', 'verified'])->name('sales');
 
 //notification
-Route::get('/notification', function() {
-    return Inertia::render('LoggedInPages/Notifications');
-})->middleware(['auth', 'verified'])->name('notification');
+// Route::get('/notification', function() {
+//     return Inertia::render('LoggedInPages/Notifications');
+// })->middleware(['auth', 'verified'])->name('notification');
 
 //user profile
 Route::get('/profile/{user}', [ProfileController::class, 'index'])->name('profile.show');
 
 Route::get('/search', function() {
-    
-    $categories = Category::get();
-    return Inertia::render('Posts/Search')->with(compact(['categories']));
+    return Inertia::render('Posts/Search');
 })->name('search');
 
 Route::post('/search', [SearchController::class, 'index'])->name('searchCompletion');
@@ -111,13 +110,18 @@ Route::get('success', [PaymentController::class, 'success']);
 Route::get('error', [PaymentController::class, 'error']);
 
 //try to use api for the following functions
-Route::get('/addPosts', [PostsController::class, 'addPostsExplore']);
-Route::get('/addPosts2', [PostsController::class, 'addPostsHome']);
+Route::get('/addPostsExplore', [PostsController::class, 'addPostsExplore']);
+Route::get('/addPostsHome', [PostsController::class, 'addPostsHome']);
+Route::get('/addPostsSearch', [SearchController::class, 'addPostsSearch']);
+Route::get('/addPostsCategories', [SearchController::class, 'addPostsCategories']);
+
 
 //filter for categories (use api)
 Route::get('/filter', [SearchController::class, 'categoryIndex']);
 
-Route::get('/notifications', [NotificationsController::class, 'index'])->name('notificationss');
+//why the name?
+Route::get('/notifications', [NotificationsController::class, 'index'])->name('notifications');
 
+Route::post('/likes', [LikesController::class, 'store'])->name('likes.store');
 
 require __DIR__.'/auth.php';

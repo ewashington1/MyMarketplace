@@ -54,21 +54,6 @@ class PostsController extends Controller
         return $nextPosts;
     }
 
-    // not used any more, replaced with explore function (which doesnt follow naming convention btw)
-    // public function indexAll() {
-
-    //     $posts = Post::with('user')->latest()->get(); //user id is in users
-
-    //     if (sizeof($posts) == 0) {
-    //         $allProfiles = Profile::all()->load(['user', 'user.posts']);
-    //         return Inertia::render('LoggedInPages/UsersPreview')->with(compact('allProfiles'));
-    //     }
-
-    //     $posts->load('user.profile');
-
-    //     return Inertia::render('Posts/Index')->with(compact(['posts']));
-    // }
-
     public function explore() {
         $initPosts = Post::latest()->take(9)->get();
 
@@ -98,20 +83,20 @@ class PostsController extends Controller
         $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200,1200);
         $image->save();
         
+        $post = auth()->user()->posts()->create([
+            'caption' => request('caption'),
+            'image' => $imagePath,
+            'price' => request('price')
+        ]);
+
+        
+
         if (request()->categories != null) {
-            auth()->user()->posts()->create([
-                'caption' => request('caption'),
-                'image' => $imagePath,
-                'categories' => implode('_', request('categories')), //make sure to change function that checks categories of posts
-                'price' => request('price')
-            ]);
-        }
-        else {
-            auth()->user()->posts()->create([
-                'caption' => request('caption'),
-                'image' => $imagePath,
-                'price' => request('price')
-            ]);
+            // Get the IDs of the categories based on their names
+            $categoryIds = Category::whereIn('category', request()->categories)->pluck('id')->toArray();
+
+            // Attach the category IDs to the post
+            $post->categories()->attach($categoryIds);
         }
         
         
@@ -129,6 +114,10 @@ class PostsController extends Controller
     public function show(\App\Models\Post $post) {
 
         $user = $post->user->load('profile');
+
+        $authUser = auth()->user();
+
+        $userHasLikedPost = $authUser->likes->contains('post_id', $post->id);
 
         return Inertia::render('Posts/Show')->with(compact(['post', 'user'])); //same as Inertia::render('Posts/Show')->with(['post'=>$post]);
     }

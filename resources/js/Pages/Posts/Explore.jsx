@@ -19,7 +19,7 @@ const Explore = ({ auth, initPosts, initPostCount, totalPostCount }) => {
     const renderMore = () => {
         if (posts.length < totalPostCount) {
             axios
-                .get("/addPosts", {
+                .get("/addPostsExplore", {
                     params: { curCount: curCount.current },
                     headers: {
                         "Content-Type": "application/json",

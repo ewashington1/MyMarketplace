@@ -4,6 +4,7 @@ import SecondSecondaryButton from '@/components/SecondSecondaryButton';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from '@inertiajs/react';
 import {Link} from '@inertiajs/react';
+import GridIndex from '@/components/GridIndex';
 
 //possibly use state management library like redux or MobX
 const Categories = ({auth, categories}) => {
@@ -22,11 +23,39 @@ const Categories = ({auth, categories}) => {
 
     //state for posts
     const [posts, setPosts] = useState(null);
-
+    const curCount = useRef();
     const selectedCategories = useRef();
+    const [hasMore, setHasMore] = useState(true);
+    const [totalPostCount, setTotalPostCount] = useState();
+
+
+    const renderMore = () => {
+        
+        if (posts.length < totalPostCount) {
+            axios
+                .get("/addPostsCategories", {
+                    params: { curCount: curCount.current, categories: selectedCategories },
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then((response) => {
+                    if (response.data != null) {
+                        curCount.current = curCount.current + 3;
+                        setPosts([...posts, ...response.data]);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            setHasMore(false);
+        }
+    };
 
     //handle null return value (no results)
     //handle on backend or frontend to require user to fill out at least one category
+    //currently gets first 9
     const filter = () => {
         const cats = Array.from(set);
         if (cats.length == 0) {
@@ -40,12 +69,16 @@ const Categories = ({auth, categories}) => {
                 categories: cats
             }
         }).then((response) => {
+            console.log(response);
             if (response.data) {
                 console.log(response.data);
-                setPosts(response.data);
+                setPosts(response.data.posts);
+                setTotalPostCount(response.data.totalPostCount);
+                console.log(response.data.totalPostCount)
             }
         }).catch((err) => console.log(err.response.data));
     }
+
 
     if (!posts) {
         return (
@@ -79,13 +112,7 @@ const Categories = ({auth, categories}) => {
                     ))}
                     <PrimaryButton className='ml-2' onClick={filter}>Filter</PrimaryButton>
                     <div className="flex justify-center items-center mt-2">
-                        <div className="grid grid-cols-3 gap-1 w-3/5">
-                            {posts.map((post) => (
-                                <Link href={`/post/${post.id}`} key={post.id}>
-                                    <img src={`/storage/${post.image}`} alt="post" />
-                                </Link>
-                            ))}
-                        </div>
+                        <GridIndex auth={auth} renderMore={renderMore} hasMore={hasMore} posts={posts}/>
                     </div>
                     
                 </div>

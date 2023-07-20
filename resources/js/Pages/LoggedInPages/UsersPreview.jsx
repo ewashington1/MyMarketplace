@@ -38,6 +38,8 @@ export default function UsersPreview({ auth, allProfiles }) {
                         </p>{" "}
                     </Link>
                     <div className="grid w-2/5 pb-2 pt-2 m-auto grid-cols-3 gap-1">
+                        {/* Make a function that gets 5 recent users and their 9 most recent posts on the server side because it
+                        s way more efficient  */}
                         {profile.user.posts.slice(0, 9).map((post, index2) => (
                             <Link href={`/post/${post.id}`} key={index2}>
                                 <img

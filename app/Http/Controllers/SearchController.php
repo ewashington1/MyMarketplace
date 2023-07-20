@@ -9,62 +9,66 @@ use Illuminate\Database\Eloquent\Builder;
 
 class SearchController extends Controller
 {
+    //must adjust for infinite scroll (must send initPosts, initPostCount, totalPostCount)
     public function index(Request $request) {
-        $allPosts = Post::with('user')->latest()->get();
         $posts = [];
 
+        $initPostCount = 9;
 
-        if ($request->searchBy == "Caption") {
-            foreach($allPosts as &$post) {
-                if(str_contains($post->caption, $request->searchTerm)) {
-                    array_push($posts, $post);
-                    
-                    $post->user->load('profile');
-                }
-            }
-        }
+        $searchTerm = $request->searchTerm;
 
-        if ($request->searchBy == "Category") {
+        $posts = Post::where('caption', 'like', '%' . $searchTerm . '%')->latest();
 
-            $categories = $request->searchTerm;
+        $initPosts = $posts->latest()->take(9)->get()->load('user.profile');
 
-            foreach($allPosts as &$post) {
-                $bool = false;
-                foreach($categories as &$cat) {
-                    $bool = str_contains($post->categories, $cat);
-                    if(!$bool) {
-                        break;
-                    }
-                }
-                if ($bool) {
-                    $post->user->load('profile');
-                    array_push($posts, $post);
-                }
-            }
-            if (empty($posts)) {
-                return Inertia::render('Posts/NoPostsFound')->with(compact(['categories']));
-            }
-        }
+        $totalPostCount = $posts->count();
 
-        return Inertia::render('Posts/Index')->with(compact(['posts']));
+        return Inertia::render('Posts/SearchIndex')->with(compact(['initPosts', 'totalPostCount', 'initPostCount', 'searchTerm']));
     }
+
+    //must implement addPosts for infinite scroll (must send next 3 posts)
+    public function addPostsSearch(Request $request) {
+        $curCount = request()->curCount;
+
+        $nextPosts = Post::where('caption', 'like', '%' . $request->searchTerm . '%')->latest()->skip($curCount)->take(3)->get()->load('user.profile');
+
+        return $nextPosts;
+        
+    }
+
 
     //this is probably terrible runtime tbh
     public function categoryIndex(Request $request) {
-
         $categories = $request->categories;
 
-        $posts = Post::where(function ($query) use ($categories) {
-            foreach ($categories as &$cat) {
-                //whereRaw uses raw sql and locate is basically like indexOf
-                $query->whereRaw('LOCATE(?, categories) > 0', $cat);
-            }
-        })->latest()->take(9)->get();
+        $allPosts = Post::whereHas('categories', function ($query) use ($categories) {
+            $query->whereIn('category', $categories);
+        });
+
+        $totalPostCount = $allPosts->count();
+        $posts = $allPosts->latest()->take(9)->get();
 
         if (count($posts) === 0) {
             return "No posts with matching categories:";
         }
 
-        return $posts;
+        return [
+            'posts' => $posts,
+            'totalPostCount' => $totalPostCount
+        ];
+    
     }
+
+    public function addPostsCategories(Request $request) {
+        $curCount = $request->curCount;
+        $categories = $request->categories;
+
+        $posts = Post::whereHas('categories', function ($query) use ($categories) {
+            $query->whereIn('category', $categories);
+        })->latest()->skip($curCount)->take(3)->get();
+
+        return $posts;
+
+    }
+
 }

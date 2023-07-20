@@ -59,7 +59,12 @@ class User extends Authenticatable
     }
 
     public function notifications() {
-        return $this->hasMany(Notification::class);
+        //custom column name in table: 'receiver_id'
+        return $this->hasMany(Notification::class, 'receiver_id');
+    }
+
+    public function likes() {
+        return $this->hasMany(Like::class);
     }
 
     public static function boot() {

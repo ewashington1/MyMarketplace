@@ -123,7 +123,7 @@ export default function Create({ auth, categories }) {
 
                     <div className="flex items-center justify-end mt-4">
                         <PrimaryButton
-                            className="ml-4" /*disabled={processing}*/
+                            className="ml-4" disabled={processing}
                         >
                             Post
                         </PrimaryButton>

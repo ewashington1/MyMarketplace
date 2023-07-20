@@ -4,13 +4,15 @@ import { Link, Head } from "@inertiajs/react";
 import OnePost from "@/Pages/Posts/OnePost";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingCircle from "@/components/LoadingCircle";
+import GridIndex from "@/components/GridIndex";
 
 //BROKEN
-export default function Index({
+export default function SearchIndex({
     auth,
     initPosts,
     initPostCount,
     totalPostCount,
+    searchTerm
 }) {
 
     const curCount = useRef(initPostCount);
@@ -20,8 +22,8 @@ export default function Index({
     const renderMore = () => {
         if (posts.length < totalPostCount) {
             axios
-                .get("/addPostsHome", {
-                    params: { curCount: curCount.current },
+                .get("/addPostsSearch", {
+                    params: { curCount: curCount.current, searchTerm: searchTerm },
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -42,29 +44,8 @@ export default function Index({
 
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title="Home" />
-            <InfiniteScroll
-                dataLength={posts.length}
-                next={renderMore}
-                hasMore={hasMore}
-                loader={
-                    <div className=" text-lg text-center h-12">
-                        Loading more posts...&nbsp;
-                        <LoadingCircle />
-                    </div>
-                }
-                endMessage={
-                    <div className="text-lg text-center h-12">
-                        No more posts to load.
-                    </div>
-                }
-            >
-                <div className="grid grid-cols-9 w-8/12 m-auto justify-items-center items-center">
-                    {posts.map((post, index) => (
-                        <OnePost postP={post} auth={auth} key={index}></OnePost>
-                    ))}
-                </div>
-            </InfiniteScroll>
+            <Head title="Search" />
+            <GridIndex renderMore={renderMore} hasMore={hasMore} posts={posts} />
         </AuthenticatedLayout>
     );
 }

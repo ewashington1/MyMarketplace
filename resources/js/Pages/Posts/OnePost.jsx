@@ -1,8 +1,12 @@
 import { Link, Head, useForm } from "@inertiajs/react";
 import { format, formatDistance, formatRelative } from "date-fns";
 import PrimaryButton from "@/Components/PrimaryButton";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SecondSecondaryButton from "@/Components/SecondSecondaryButton";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as unfilledHeart } from '@fortawesome/free-regular-svg-icons'
+import { faHeart as filledHeart } from '@fortawesome/free-solid-svg-icons'
 
 function buyBtn(auth, post) {
     if (post.price !== 0 && auth.user.id !== post.user.id) {
@@ -19,6 +23,7 @@ function buyBtn(auth, post) {
 }
 
 export default function OnePost({ auth, postP }) {
+    console.log(postP);
     const { data, setData, post, processing, errors, reset } = useForm({
         amount: "",
         post_id: postP.id,
@@ -36,6 +41,31 @@ export default function OnePost({ auth, postP }) {
         });
     };
 
+    const [liked, setLiked] = useState(postP.is_liked_by_auth_user);
+    const [likeLoading, setLikeLoading] = useState(false);
+    
+    const toggleLikeBtn = () => {
+        setLikeLoading(true);
+        //promise 1
+        const postRequest = axios.post('/likes', {
+            post_id: postP.id,
+        });
+        //promise 2 (just waits 2 seconds before calling resolve function)
+        const timeout = new Promise(resolve => setTimeout(resolve, 1000));
+        //waiting until all promises are resolved
+        Promise.all([postRequest, timeout]).then(([response]) => {
+            if (response.data == true) {
+                setLiked(true);
+            }
+            else {
+                setLiked(false);
+            }
+            setLikeLoading(false);
+        });
+    }
+    
+    
+
     useEffect(() => {
         if (data.amount !== "") {
             post(route("payment", data));
@@ -44,7 +74,19 @@ export default function OnePost({ auth, postP }) {
 
     return (
         <div className="col-span-5 col-start-3 h-full m-auto pt-4">
-            <img src={`/storage/${postP.image}`} alt="post" />
+            <div className="relative">
+                <img src={`/storage/${postP.image}`} alt="post" />
+                {/* add loading state animation */}
+                <button 
+                    className="absolute h-14 w-14 justify-center right-0 bottom-0 rounded-tl-lg text-[27px]" 
+                    onClick={() => toggleLikeBtn()} 
+                    style={{ backgroundColor: 'rgba(241, 245, 249, 0.5)' }}>
+                        {liked ?
+                        <FontAwesomeIcon className={`px-3 py-2 text-red-500 text-3xl ${likeLoading ? "like-animate" : "like-button"}`} icon={filledHeart} />
+                        : <FontAwesomeIcon icon={unfilledHeart} className={`px-3 py-2 text-3xl ${likeLoading ? "like-animate" : "like-button"}`} />
+                }</button>
+            </div>
+            
             <div className=" max-h-full pt-3 pb-3">
                 <Link href={`/profile/${postP.user.id}`}>
                     <img
@@ -55,7 +97,7 @@ export default function OnePost({ auth, postP }) {
                         }
                         alt="pfp"
                         className="inline max-h-full h-10 rounded-full"
-                    />
+                    /> 
                     <b className=" inline pl-2 text-2xl text-center align-middle">
                         {postP.user.profile.username}{" "}
                     </b>{" "}
@@ -70,7 +112,7 @@ export default function OnePost({ auth, postP }) {
                             { addSuffix: true }
                         )}
                     </p>
-                    <div className="">
+                    <div className="block">
                         {" "}
                         <form
                             onSubmit={(e) => pay(e, postP.price)}
@@ -84,9 +126,13 @@ export default function OnePost({ auth, postP }) {
                             {buyBtn(auth, postP)}
                         </form>
                     </div>
+                    
+                    
                 </div>
+                
             </div>
             <div className=" pt-3 border-b-2 border-gray-300"></div>
         </div>
+        
     );
 }

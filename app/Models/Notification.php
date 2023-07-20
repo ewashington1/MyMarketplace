@@ -9,12 +9,19 @@ class Notification extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];    
+
     public function user() {
-        return $this->belongsTo(User::class);
+        //specifies that the column name is receiver_id in the table
+        return $this->belongsTo(User::class, 'receiver_id');
     }
 
-    public function profile() {
-        return $this->belongsTo(User::class);
+    public function post() {
+        return $this->belongsTo(Post::class);
+    }
+
+    public function actor() {
+        return $this->belongsTo(User::class, "actor_id");
     }
 
 }

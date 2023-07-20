@@ -87,6 +87,8 @@ class PaymentController extends Controller
 
                 $payment->save();
 
+                NotificationsController::createPurchaseNotification($payer_id, $post_id);
+
                 Post::where('id', $post_id)->update(array('user_id' => $payer_id));
                 $p = Post::where('id', $post_id)->get();
 

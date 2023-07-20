@@ -12,6 +12,19 @@ class FollowsController extends Controller
     }
     
     public function store(\App\Models\User $user){
-        return auth()->user()->following()->toggle($user->profile);
+        $follower_id = auth()->id();
+        $followed_profile_id = $user->profile->id;
+    
+        // Toggle the follow
+        $result = auth()->user()->following()->toggle($user->profile);
+    
+        // Check if a new entry was created
+        if (!empty($result['attached'])) {
+            // A new entry was created, so create the notification
+            NotificationsController::createFollowNotification($follower_id, $followed_profile_id);
+        }
+    
+        return $result;
     }
+    
 }
