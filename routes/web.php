@@ -114,6 +114,7 @@ Route::get('/addPostsExplore', [PostsController::class, 'addPostsExplore']);
 Route::get('/addPostsHome', [PostsController::class, 'addPostsHome']);
 Route::get('/addPostsSearch', [SearchController::class, 'addPostsSearch']);
 Route::get('/addPostsCategories', [SearchController::class, 'addPostsCategories']);
+Route::get('/addPostsLiked', [LikesController::class, 'addPostsLiked']);
 
 
 //filter for categories (use api)
@@ -123,5 +124,7 @@ Route::get('/filter', [SearchController::class, 'categoryIndex']);
 Route::get('/notifications', [NotificationsController::class, 'index'])->name('notifications');
 
 Route::post('/likes', [LikesController::class, 'store'])->name('likes.store');
+
+Route::get('/likedPosts', [LikesController::class, 'index'])->name('likedPosts');
 
 require __DIR__.'/auth.php';

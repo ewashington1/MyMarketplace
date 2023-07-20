@@ -63,9 +63,12 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class, 'receiver_id');
     }
 
-    public function likes() {
-        return $this->hasMany(Like::class);
+    //i don't get this. It was AI
+    public function likes()
+    {
+        return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id');
     }
+
 
     public static function boot() {
         parent::boot();

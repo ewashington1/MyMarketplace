@@ -160,7 +160,7 @@ export default function Authenticated({ user, children }) {
                 <div className="mx-auto w-2/3 text-center">
                     <div className="inline-block">
                         <Link
-                            className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
+                            className="max-w-xl mx-auto py-4 px-2 sm:px-4 lg:px-6 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
                             href={route("home")}
                         >
                             Home
@@ -168,7 +168,7 @@ export default function Authenticated({ user, children }) {
                     </div>
                     <div className="inline-block">
                         <Link
-                            className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
+                            className="max-w-6xl mx-auto py-4 px-2 sm:px-4 lg:px-6 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
                             href={route("explore")}
                         >
                             Explore
@@ -176,7 +176,7 @@ export default function Authenticated({ user, children }) {
                     </div>
                     <div className="inline-block">
                         <Link
-                            className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
+                            className="max-w-7xl mx-auto py-4 px-2 sm:px-4 lg:px-6 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
                             href={route("search")}
                         >
                             Search
@@ -184,7 +184,7 @@ export default function Authenticated({ user, children }) {
                     </div>
                     <div className="inline-block">
                         <Link
-                            className=" max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
+                            className=" max-w-6xl mx-auto py-4 px-2 sm:px-4 lg:px-6 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
                             href={route("categories")}
                         >
                             Categories
@@ -192,7 +192,7 @@ export default function Authenticated({ user, children }) {
                     </div>
                     <div className="inline-block">
                         <Link
-                            className=" max-w-7xl  mx-auto py-6 px-4 sm:px-6 lg:px-8 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
+                            className=" max-w-6xl  mx-auto py-4 px-2 sm:px-4 lg:px-6 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
                             href={route("purchases")}
                         >
                             Purchases
@@ -200,7 +200,7 @@ export default function Authenticated({ user, children }) {
                     </div>
                     <div className="inline-block">
                         <Link
-                            className=" max-w-7xl  mx-auto py-6 px-4 sm:px-6 lg:px-8 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
+                            className=" max-w-6xl  mx-auto py-4 px-2 sm:px-4 lg:px-6 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
                             href={route("sales")}
                         >
                             Sales
@@ -208,10 +208,18 @@ export default function Authenticated({ user, children }) {
                     </div>
                     <div className="inline-block ">
                         <Link
-                            className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
+                            className="max-w-6xl mx-auto py-4 px-2 sm:px-4 lg:px-6 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
                             href={route("notifications")}
                         >
                             Notifications
+                        </Link>
+                    </div>
+                    <div className="inline-block ">
+                        <Link
+                            className="max-w-6xl mx-auto py-4 px-2 sm:px-4 lg:px-6 inline-block hover:bg-slate-300 hover:cursor-pointer duration-500"
+                            href={route("likedPosts")}
+                        >
+                            Liked Posts
                         </Link>
                     </div>
                 </div>

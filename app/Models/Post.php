@@ -18,7 +18,7 @@ class Post extends Model
     public function getIsLikedByAuthUserAttribute() {
         $authUser = auth()->user();
 
-        return $authUser->likes->contains('post_id', $this->id);
+        return $authUser->likes->contains(Post::find($this->id));
     }
 
     public function user() {
