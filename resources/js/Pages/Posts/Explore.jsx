@@ -14,7 +14,7 @@ const Explore = ({ auth, initPosts, initPostCount, totalPostCount }) => {
     // explain use ref
     const curCount = useRef(initPostCount);
     const [posts, setPosts] = useState(initDisplay);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore, setHasMore] = useState(initPostCount < totalPostCount);
 
     const renderMore = () => {
         if (posts.length < totalPostCount) {

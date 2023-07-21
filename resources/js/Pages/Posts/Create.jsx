@@ -90,7 +90,7 @@ export default function Create({ auth, categories }) {
                             onChange={(e) => setData("price", e.target.value)}
                         />
 
-                        <InputError message={errors.caption} className="mt-2" />
+                        <InputError message={errors.price} className="mt-2" />
                     </div>
 
                     <div className="mt-4">

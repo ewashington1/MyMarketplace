@@ -17,7 +17,7 @@ export default function SearchIndex({
 
     const curCount = useRef(initPostCount);
     const [posts, setPosts] = useState(initPosts);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore, setHasMore] = useState(initPostCount < totalPostCount);
 
     const renderMore = () => {
         if (posts.length < totalPostCount) {

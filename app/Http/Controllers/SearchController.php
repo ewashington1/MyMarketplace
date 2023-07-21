@@ -47,6 +47,7 @@ class SearchController extends Controller
 
         $totalPostCount = $allPosts->count();
         $posts = $allPosts->latest()->take(9)->get();
+        $initPostCount = 9;
 
         if (count($posts) === 0) {
             return "No posts with matching categories:";
@@ -54,7 +55,8 @@ class SearchController extends Controller
 
         return [
             'posts' => $posts,
-            'totalPostCount' => $totalPostCount
+            'totalPostCount' => $totalPostCount,
+            'initPostCount' => $initPostCount,
         ];
     
     }

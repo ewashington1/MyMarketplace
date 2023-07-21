@@ -76,6 +76,7 @@ class PostsController extends Controller
         $data = request()
         ->validate([
             'image' => 'required|image',
+            'price' => 'required|numeric|min:0.01',
         ]);
         
         $imagePath = request('image')->store('Uploads', 'public');

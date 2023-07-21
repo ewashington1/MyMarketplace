@@ -16,7 +16,7 @@ const LikedPosts = ({auth, initPosts, initPostCount, totalPostCount }) => {
     // explain use ref
     const curCount = useRef(initPostCount);
     const [posts, setPosts] = useState(initDisplay);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore, setHasMore] = useState(initPostCount < totalPostCount);
 
     const renderMore = () => {
         if (posts.length < totalPostCount) {
@@ -52,7 +52,7 @@ const LikedPosts = ({auth, initPosts, initPostCount, totalPostCount }) => {
 
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title="Explore" />
+            <Head title="Liked Posts" />
             <div className="w-3/5 pb-2 pt-2 m-auto">
                 <InfiniteScroll
                     dataLength={posts.length}
