@@ -5,35 +5,45 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Inertia\Inertia;
+use App\Models\Profile;
 use Illuminate\Database\Eloquent\Builder;
 
 class SearchController extends Controller
 {
     //must adjust for infinite scroll (must send initPosts, initPostCount, totalPostCount)
     public function index(Request $request) {
-        $posts = [];
-
-        $initPostCount = 9;
-
+        
         $searchTerm = $request->searchTerm;
 
+        $initPostCount = 9;
         $posts = Post::where('caption', 'like', '%' . $searchTerm . '%')->latest();
-
         $initPosts = $posts->latest()->take(9)->get()->load('user.profile');
-
         $totalPostCount = $posts->count();
 
-        return Inertia::render('Posts/SearchIndex')->with(compact(['initPosts', 'totalPostCount', 'initPostCount', 'searchTerm']));
+        $initProfileCount = 9;
+        $profiles = Profile::where('username', 'like', '%' . $searchTerm . '%')->latest();
+        $initProfiles = $profiles->latest()->take(9)->get()->load('user.profile');
+        $totalProfileCount = $profiles->count();
+
+        return compact('initPosts', 'totalPostCount', 'initProfiles', 'totalProfileCount');
     }
 
     //must implement addPosts for infinite scroll (must send next 3 posts)
     public function addPostsSearch(Request $request) {
-        $curCount = request()->curCount;
+        $curCount = $request->curCount;
 
-        $nextPosts = Post::where('caption', 'like', '%' . $request->searchTerm . '%')->latest()->skip($curCount)->take(3)->get()->load('user.profile');
+        $nextPosts = Post::where('caption', 'like', '%' . $request->searchTerm . '%')->latest()->skip($curCount)->take(3)->get();
 
         return $nextPosts;
         
+    }
+
+    public function addProfilesSearch(Request $request) {
+        $curCount = $request->curCount;
+
+        $nextProfiles = Profile::where('username', 'like', '%' . $request->searchTerm . '%')->latest()->skip($curCount)->take(9)->get()->load('user.profile');
+
+        return $nextProfiles;
     }
 
 

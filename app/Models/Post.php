@@ -12,13 +12,17 @@ class Post extends Model
     protected $guarded = [];
 
     //includes the value of the is_liked_by_auth_user attribute in the JSON of Post model
-    protected $appends = ['is_liked_by_auth_user'];
+    protected $appends = ['is_liked_by_auth_user', 'like_count'];
 
     //notice naming convention between attribute and this function below
     public function getIsLikedByAuthUserAttribute() {
         $authUser = auth()->user();
 
         return $authUser->likes->contains(Post::find($this->id));
+    }
+
+    public function getLikeCountAttribute() {
+        return $this->likes->count();
     }
 
     public function user() {

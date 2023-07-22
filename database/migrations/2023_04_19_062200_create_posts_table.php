@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('caption');
             $table->string('image');
-            $table->string('categories')->nullable();
-            $table->float('price', 8, 2);
+            // $table->string('categories')->nullable();
+            $table->float('price', 8, 2)->nullable();
             $table->index('user_id'); //you could delete all posts and profile when user is deleted in laravel with "cascading"
             $table->timestamps();
 

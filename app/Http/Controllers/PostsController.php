@@ -76,7 +76,6 @@ class PostsController extends Controller
         $data = request()
         ->validate([
             'image' => 'required|image',
-            'price' => 'required|numeric|min:0.01',
         ]);
         
         $imagePath = request('image')->store('Uploads', 'public');
@@ -110,6 +109,47 @@ class PostsController extends Controller
         //$post->save();
 
         // dd(request()->all()); //gets the request a displays it
+    }
+
+    public function update(Request $request) {
+        $data = request()->validate([
+            'postId' => 'required',
+            'price' => 'nullable|numeric',
+        ]);
+    
+        // Retrieve the post
+        $post = Post::find($data['postId']);
+    
+        // Update post attributes
+        if (array_key_exists('price', $data)) {
+            $post->price = $data['price'];
+        }
+        if (array_key_exists('caption', $data)) {
+            $post->caption = $data['caption'];
+        }
+        $post->save();
+    
+        if (array_key_exists('categories', $data)) {
+            $category_ids = Category::whereIn('category', $data['categories'])->pluck('id');
+            // Sync the categories
+            $post->categories()->sync($category_ids);
+        }
+    
+        return "Success!";
+    }
+    
+
+    public function edit($postId) {
+        $postP = Post::find($postId);
+        $postCategories = $postP->categories()->get()->pluck('category');
+        $categories = Category::all();
+        $owner_id = $postP->user->id;
+    
+        if (auth()->user()->id === $owner_id) {
+            return Inertia::render('Posts/EditPost')->with(compact('postP', 'postCategories', 'categories', 'owner_id'));
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 404);
+        }
     }
 
     public function show(\App\Models\Post $post) {

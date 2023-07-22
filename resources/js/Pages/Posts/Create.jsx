@@ -78,7 +78,7 @@ export default function Create({ auth, categories }) {
                         <InputError message={errors.caption} className="mt-2" />
                     </div>
                     <div className="mt-4">
-                        <InputLabel htmlFor="price" value="Price" />
+                        <InputLabel htmlFor="price" value="Price (null, negative = not for sale)" />
 
                         <TextInput
                             id="price"
@@ -123,7 +123,7 @@ export default function Create({ auth, categories }) {
 
                     <div className="flex items-center justify-end mt-4">
                         <PrimaryButton
-                            className="ml-4" disabled={processing}
+                            // className="ml-4" disabled={processing}
                         >
                             Post
                         </PrimaryButton>

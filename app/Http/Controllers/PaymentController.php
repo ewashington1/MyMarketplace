@@ -89,8 +89,11 @@ class PaymentController extends Controller
 
                 NotificationsController::createPurchaseNotification($payer_id, $post_id);
 
-                Post::where('id', $post_id)->update(array('user_id' => $payer_id));
-                $p = Post::where('id', $post_id)->get();
+                // Post::find($post_id)->update(array('user_id' => $payer_id));
+                $post = Post::find($post_id);
+                $post->user_id = $payer_id;
+                $post->price = -1;
+                $post->save();
 
                 return Inertia::render('Posts/PaymentSuccess')->with(['pId' => $arr['id']]);
 

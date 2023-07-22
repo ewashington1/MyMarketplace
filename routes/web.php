@@ -116,6 +116,9 @@ Route::get('/addPostsSearch', [SearchController::class, 'addPostsSearch']);
 Route::get('/addPostsCategories', [SearchController::class, 'addPostsCategories']);
 Route::get('/addPostsLiked', [LikesController::class, 'addPostsLiked']);
 
+Route::get('/post/{post}/edit', [PostsController::class, 'edit'])->name('post.edit');
+Route::patch('/post/{post}', [PostsController::class, 'update'])->name('post.update');
+
 
 //filter for categories (use api)
 Route::get('/filter', [SearchController::class, 'categoryIndex']);

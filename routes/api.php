@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,3 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/notifications', function() {
     auth()->user()->notifications;
 });
+
+Route::get('/addProfilesSearch', [SearchController::class, 'addProfilesSearch']);
+
+

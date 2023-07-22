@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Like;
 use App\Models\Post;
+use App\Models\Notification;
 use Inertia\Inertia;
 
 class LikesController extends Controller
@@ -25,6 +26,16 @@ class LikesController extends Controller
             $liker_id = auth()->id();
             NotificationsController::createLikeNotification($liker_id, $post_id);
             return true;
+        }
+
+        if (!empty($result['detached'])) {
+            $post_id = $request->post_id;
+            $actor_id = auth()->id();
+
+            $notification = Notification::where('post_id', $post_id)->where('actor_id', $actor_id)->latest();
+            if ($notification) {
+                $notification->delete();
+            }
         }
 
         return false;
