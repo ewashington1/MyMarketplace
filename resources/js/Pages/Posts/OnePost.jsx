@@ -9,6 +9,7 @@ import { faHeart as unfilledHeart } from '@fortawesome/free-regular-svg-icons'
 import { faHeart as filledHeart } from '@fortawesome/free-solid-svg-icons'
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { createPortal } from "react-dom";
+import FollowButtonForPost from "@/components/FollowButtonForPost";
 
 
 function buyBtn(auth, post) {
@@ -26,7 +27,6 @@ function buyBtn(auth, post) {
 }
 
 export default function OnePost({ auth, postP }) {
-    console.log(postP);
     const { data, setData, post, processing, errors, reset } = useForm({
         amount: "",
         post_id: postP.id,
@@ -49,6 +49,22 @@ export default function OnePost({ auth, postP }) {
     const [likeLoading, setLikeLoading] = useState(false);
     const [etcHovered, setEtcHovered] = useState(false);
     const [likeCount, setLikeCount] = useState(postP.like_count);
+    const [isFollowing, setIsFollowing] = useState(postP.user.profile.is_followed_by_auth_user);
+    const [followLoading, setFollowLoading] = useState(false);
+
+    const follow = (user) => {
+        setFollowLoading(true);
+
+        const followPromise = axios.post(`/follow/${user.id}`);
+
+        const timeout = new Promise(resolve => setTimeout(resolve, 2000));
+
+        Promise.all([followPromise, timeout]).then(([response]) => {
+            console.log(response);
+            setIsFollowing(!isFollowing);
+            setFollowLoading(false);
+        }).catch((err) => console.log(err));
+    };
 
     const [showModal, setShowModal] = useState(false);
     const DetailsModal = () => {
@@ -85,6 +101,7 @@ export default function OnePost({ auth, postP }) {
             }
             setLikeLoading(false);
         });
+        setLikeLoading(false);
     }
 
     useEffect(() => {
@@ -120,10 +137,24 @@ export default function OnePost({ auth, postP }) {
                     )}
                 </div>
                 
+                {auth.user.id !== postP.user.id && ( 
+                    <>
+                        <div className="mx-2 p-1 bg-gray-300 rounded-full"></div>
+                        <FollowButtonForPost
+                            follows={isFollowing}
+                            className={`${followLoading &&'followLoad'}`}
+                            onClick={() => follow(postP.user)}
+                            
+                        >
+                            {isFollowing ? "Following" : "Follow"}
+                        </FollowButtonForPost>
+                    </>
+                )}
+                
                 <button onClick={() => setShowModal(true)} onMouseLeave={()=>setEtcHovered(false)} onMouseOver={()=>setEtcHovered(true)} className={`hover:bg-gray-700 absolute shadow-sm hover:shadow-md bg-gray-300  rounded-md p-2 right-4 flex`}>
-                    <div className={`${etcHovered && 'bg-gray-300'} mx-[1px] p-[2px] bg-gray-700 rounded-full`}></div>
-                    <div className={`${etcHovered && 'bg-gray-300'} mx-[1px] p-[2px] bg-gray-700 rounded-full`}></div>
-                    <div className={`${etcHovered && 'bg-gray-300'} mx-[1px] p-[2px] bg-gray-700 rounded-full`}></div>
+                    <div className={`${etcHovered ? 'bg-gray-300' : 'bg-gray-700'} mx-[1px] p-[2px] rounded-full`}></div>
+                    <div className={`${etcHovered ? 'bg-gray-300' : 'bg-gray-700'} mx-[1px] p-[2px] rounded-full`}></div>
+                    <div className={`${etcHovered ? 'bg-gray-300' : 'bg-gray-700'} mx-[1px] p-[2px] rounded-full`}></div>
                 </button>
             </div>
             <div className="flex relative">
@@ -131,14 +162,12 @@ export default function OnePost({ auth, postP }) {
                 
             </div>
             
-            <div className=" max-h-full pt-2 flex items-center justify-between">
-                <div>
-                    <Link href={`/profile/${postP.user.id}`}>
-                        <b className=" inline pl-2 text-2xl text-center align-middle">
-                            {postP.user.profile.username}{" "}
-                        </b>{" "}
+            <div className=" max-h-full pt-2 flex items-center justify-between align-middle">
+                <div className="flex align-middle">
+                    <Link href={`/profile/${postP.user.id}`} className="font-bold inline px-2 text-[22px] text-center">
+                        {postP.user.profile.username}
                     </Link>
-                    <p className=" inline text-xl align-middle">{postP.caption}</p>
+                    <div className=" inline text-[22px] align-middle">{postP.caption}</div>
                 </div>
                 
                 <div className="block text-xs align-top float-right">
@@ -163,7 +192,7 @@ export default function OnePost({ auth, postP }) {
                             <input
                                 type="hidden"
                                 name="amount"
-                                value={postP.price}
+                                value={postP.price || '0'}
                             />
                             {(postP.price >0 && postP.price !== null) && buyBtn(auth, postP)}
                         </form>

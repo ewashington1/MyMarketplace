@@ -42,3 +42,36 @@
     transform: scale(1.0);
   }
 }
+
+.followLoad::before {
+  content:"";
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  background: rgb(147 197 253 );
+  box-shadow:0 0 70px 20px rgb(147 197 253 );
+  clip-path:inset(0);
+  animation:
+    x 0.5s ease-in-out infinite alternate,
+    y 1s   ease-in-out infinite;
+}
+
+@keyframes x {
+  to {
+    transform:translateX(-100%);
+    left:100%;
+  }
+}
+
+@keyframes y {
+   33% {
+     clip-path:inset(0 0 0 -100px);    
+   }
+   50% {
+     clip-path:inset(0 0 0 0);    
+   }
+   83%{
+     clip-path:inset(0 -100px 0 0); 
+   }
+}

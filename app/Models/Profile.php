@@ -10,6 +10,8 @@ class Profile extends Model
 {
     use HasFactory;
 
+    protected $appends = ['is_followed_by_auth_user'];
+
     public function followers() {
         return $this->belongsToMany(User::class);
     }
@@ -29,6 +31,10 @@ class Profile extends Model
         'pfp,',
         'username'
     ];
+
+    public function getIsFollowedByAuthUserAttribute() {
+        return $this->followers->contains(auth()->user());
+    }
 
 
 }

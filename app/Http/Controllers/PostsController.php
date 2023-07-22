@@ -76,6 +76,8 @@ class PostsController extends Controller
         $data = request()
         ->validate([
             'image' => 'required|image',
+            'price' => 'nullable|numeric',
+            'caption' => 'string|max:191'
         ]);
         
         $imagePath = request('image')->store('Uploads', 'public');
@@ -115,6 +117,7 @@ class PostsController extends Controller
         $data = request()->validate([
             'postId' => 'required',
             'price' => 'nullable|numeric',
+            'caption' => 'string|max:191'
         ]);
     
         // Retrieve the post
