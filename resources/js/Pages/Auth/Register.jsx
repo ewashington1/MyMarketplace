@@ -124,7 +124,7 @@ export default function Register() {
                     />
                 </div>
 
-                <div className="mt-4">
+                {/* <div className="mt-4">
                     <InputLabel
                         htmlFor="phoneNum"
                         value="Phone Number (optional)"
@@ -139,7 +139,7 @@ export default function Register() {
                     />
 
                     <InputError message={errors.phoneNum} className="mt-2" />
-                </div>
+                </div> */}
 
                 <div className="flex items-center justify-end mt-4">
                     <Link

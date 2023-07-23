@@ -3,7 +3,7 @@ import { Link, Head } from "@inertiajs/react";
 import PrimaryButton from "@/components/PrimaryButton";
 import FollowButton from "@/components/FollowButton";
 import axios from "axios";
-import { useState } from "react";
+import React, { useState, Fragment } from "react";
 
 function showPostImages({ user }) {
     const posts = user.posts;
@@ -25,33 +25,26 @@ export default function Profile({ auth, user, follows, followers, following }) {
     const [isFollowing, setIsFollowing] = useState(follows);
     const [followersDisplay, setFollowers] = useState(followers);
 
-    const follow = (e, user) => {
-        e.preventDefault();
+    const follow = (user) => {
+        setFollowLoading(true);
 
-        axios
-            .post(`/follow/${user.id}`)
-            .then((response) => {
-                console.log(response);
+        const followPromise = axios.post(`/follow/${user.id}`);
+        const timeout = new Promise((resolve) => setTimeout(resolve, 2000));
+
+        Promise.all([followPromise, timeout])
+            .then(([response]) => {
                 setIsFollowing(!isFollowing);
                 if (!isFollowing) {
                     setFollowers(followersDisplay + 1);
                 } else {
                     setFollowers(followersDisplay - 1);
                 }
+                setFollowLoading(false);
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch((err) => console.log(err));
     };
 
-    // const handleClick = (event) => {
-    //     setIsFollowing(!isFollowing);
-    //     if (!isFollowing) {
-    //         setFollowers(followersDisplay + 1);
-    //     } else {
-    //         setFollowers(followersDisplay - 1);
-    //     }
-    // };
+    const [followLoading, setFollowLoading] = useState(false);
     return (
         <AuthenticatedLayout user={auth.user}>
             {/* default dashboard */}
@@ -69,8 +62,8 @@ export default function Profile({ auth, user, follows, followers, following }) {
                     />
                 </div>
                 <div className="col-span-6 pl-10">
-                    <div className=" max-h-fit">
-                        <h1 className="text-4xl inline align-middle">
+                    <div className=" max-h-fit flex relative">
+                        <h1 className="text-4xl inline align-middle pr-4">
                             @{user.username}
                         </h1>
                         {auth.user.id === user.id && (
@@ -79,17 +72,13 @@ export default function Profile({ auth, user, follows, followers, following }) {
                             </Link>
                         )}
                         {auth.user.id !== user.id && (
-                            <form
-                                onSubmit={(event) => follow(event, user)}
-                                className=" ml-4 inline"
+                            <FollowButton
+                                follows={isFollowing}
+                                className={`${followLoading && "followLoad"}`}
+                                onClick={() => follow(user)}
                             >
-                                <FollowButton
-                                    follows={isFollowing}
-                                    className=" fill-blue-500"
-                                >
-                                    {isFollowing ? "Following" : "Follow"}
-                                </FollowButton>
-                            </form>
+                                {isFollowing ? "Following" : "Follow"}
+                            </FollowButton>
                         )}
                     </div>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Notification;
 
 class FollowsController extends Controller
 {
@@ -22,6 +23,14 @@ class FollowsController extends Controller
         if (!empty($result['attached'])) {
             // A new entry was created, so create the notification
             NotificationsController::createFollowNotification($follower_id, $followed_profile_id);
+        }
+
+        if (!empty($result['detached'])) {
+            // A old entry was removed, so delete the notification
+            $notification = Notification::where('receiver_id', $user->id)->where('post_id', null)->where('actor_id', $follower_id);
+            if ($notification) {
+                $notification->delete();
+            }
         }
     
         return $result;
