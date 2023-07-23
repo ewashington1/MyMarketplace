@@ -1,8 +1,8 @@
 import { Link, Head, useForm } from "@inertiajs/react";
 import { format, formatDistance, formatRelative } from "date-fns";
-import PrimaryButton from "@/Components/PrimaryButton";
+import PrimaryButton from "@/components/PrimaryButton";
 import { useEffect, useState } from "react";
-import SecondSecondaryButton from "@/Components/SecondSecondaryButton";
+import SecondSecondaryButton from "@/components/SecondSecondaryButton";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as unfilledHeart } from '@fortawesome/free-regular-svg-icons'

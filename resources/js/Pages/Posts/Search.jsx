@@ -1,12 +1,12 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Link, Head } from "@inertiajs/react";
 
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
+import InputError from "@/components/InputError";
+import InputLabel from "@/components/InputLabel";
+import PrimaryButton from "@/components/PrimaryButton";
+import TextInput from "@/components/TextInput";
 import { useForm } from "@inertiajs/react";
-import SecondSecondaryButton from "@/Components/SecondSecondaryButton";
+import SecondSecondaryButton from "@/components/SecondSecondaryButton";
 import { useState } from "react";
 import GridIndex from "@/components/GridIndex";
 import UserIndex from "./UserIndex";

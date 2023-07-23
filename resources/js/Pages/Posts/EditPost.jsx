@@ -1,9 +1,9 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import SecondSecondaryButton from "@/Components/SecondSecondaryButton";
-import TextInput from "@/Components/TextInput";
+import InputError from "@/components/InputError";
+import InputLabel from "@/components/InputLabel";
+import PrimaryButton from "@/components/PrimaryButton";
+import SecondSecondaryButton from "@/components/SecondSecondaryButton";
+import TextInput from "@/components/TextInput";
 import { Head, useForm } from "@inertiajs/react";
 
 const EditPost = ({auth, postP, postCategories, categories, owner_id}) => {

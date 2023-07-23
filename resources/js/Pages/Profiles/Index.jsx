@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Link, Head } from "@inertiajs/react";
-import PrimaryButton from "@/Components/PrimaryButton";
-import FollowButton from "@/Components/FollowButton";
+import PrimaryButton from "@/components/PrimaryButton";
+import FollowButton from "@/components/FollowButton";
 import axios from "axios";
 import { useState } from "react";
 

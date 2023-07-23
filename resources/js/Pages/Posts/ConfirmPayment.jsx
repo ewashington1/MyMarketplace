@@ -1,6 +1,6 @@
 import { Link, Head, useForm } from "@inertiajs/react";
 import { format, formatDistance, formatRelative } from "date-fns";
-import PrimaryButton from "@/Components/PrimaryButton";
+import PrimaryButton from "@/components/PrimaryButton";
 import { useEffect } from "react";
 import { useState } from "react"; // import useState hook to store the redirect URL
 

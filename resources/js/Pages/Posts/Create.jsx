@@ -1,10 +1,10 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useEffect } from "react";
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import SecondSecondaryButton from "@/Components/SecondSecondaryButton";
-import TextInput from "@/Components/TextInput";
+import InputError from "@/components/InputError";
+import InputLabel from "@/components/InputLabel";
+import PrimaryButton from "@/components/PrimaryButton";
+import SecondSecondaryButton from "@/components/SecondSecondaryButton";
+import TextInput from "@/components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { useState } from "react";
 
