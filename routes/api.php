@@ -20,10 +20,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/notifications', function() {
-    auth()->user()->notifications;
+Route::middleware('auth')->group(function () {
+    Route::get('/notifications', function() {
+        auth()->user()->notifications;
+    });
+    
+    Route::get('/addProfilesSearch', [SearchController::class, 'addProfilesSearch']);    
 });
-
-Route::get('/addProfilesSearch', [SearchController::class, 'addProfilesSearch']);
 
 

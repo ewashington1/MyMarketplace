@@ -56,78 +56,80 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.updatePublic'); //update Public
+
+    Route::post('/follow/{user}', [FollowsController::class, 'store'])->name('follow.user');
+
+    Route::get('/home', [PostsController::class, 'index'])->name('home');
+
+    //explore
+    Route::get('/explore', [PostsController::class, 'explore'])->name('explore');
+
+    //search
+    Route::get('/search', function() {
+        return Inertia::render('LoggedInPages/Search');
+    })->middleware(['auth', 'verified'])->name('search');
+
+    //categories
+    Route::get('/categories', function() {
+        $categories = Category::get();
+        return Inertia::render('Posts/Categories')->with(compact(['categories']));
+    })->middleware(['auth', 'verified'])->name('categories');
+
+    //purchases
+    Route::get('/purchases', [PostsController::class, 'purchases'])->middleware(['auth', 'verified'])->name('purchases');
+
+    //sales
+    Route::get('/sales', [PostsController::class, 'sales'])->middleware(['auth', 'verified'])->name('sales');
+
+    //notification
+    // Route::get('/notification', function() {
+    //     return Inertia::render('LoggedInPages/Notifications');
+    // })->middleware(['auth', 'verified'])->name('notification');
+
+    //user profile
+    Route::get('/profile/{user}', [ProfileController::class, 'index'])->name('profile.show');
+
+    Route::get('/search', function() {
+        return Inertia::render('Posts/Search');
+    })->name('search');
+
+    Route::post('/search', [SearchController::class, 'index'])->name('searchCompletion');
+    // Route::get('/search/{searchTerm}', [SearchController::class, 'index'])->name('getSearchCompletion');
+
+    // //edit profile
+    // Route::get('/profile/{user}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+
+    Route::get('/post/create', [PostsController::class, 'create'])->name('post.create');
+    Route::post('/post', [PostsController::class, 'store'])->name('post');
+
+    Route::get('/post/{post}', [PostsController::class, 'show'])->name('post.show');
+
+    Route::post('pay', [PaymentController::class, 'pay'])->name('payment');
+    Route::get('success', [PaymentController::class, 'success']);
+    Route::get('error', [PaymentController::class, 'error']);
+
+    //try to use api for the following functions
+    Route::get('/addPostsExplore', [PostsController::class, 'addPostsExplore']);
+    Route::get('/addPostsHome', [PostsController::class, 'addPostsHome']);
+    Route::get('/addPostsSearch', [SearchController::class, 'addPostsSearch']);
+    Route::get('/addPostsCategories', [SearchController::class, 'addPostsCategories']);
+    Route::get('/addPostsLiked', [LikesController::class, 'addPostsLiked']);
+
+    Route::get('/post/{post}/edit', [PostsController::class, 'edit'])->name('post.edit');
+    Route::patch('/post/{post}', [PostsController::class, 'update'])->name('post.update');
+
+
+    //filter for categories (use api)
+    Route::get('/filter', [SearchController::class, 'categoryIndex']);
+
+    //why the name?
+    Route::get('/notifications', [NotificationsController::class, 'index'])->name('notifications');
+
+    Route::post('/likes', [LikesController::class, 'store'])->name('likes.store');
+
+    Route::get('/likedPosts', [LikesController::class, 'index'])->name('likedPosts');
 });
 
-Route::post('/follow/{user}', [FollowsController::class, 'store'])->name('follow.user');
 
-Route::get('/home', [PostsController::class, 'index'])->name('home');
-
-//explore
-Route::get('/explore', [PostsController::class, 'explore'])->name('explore');
-
-//search
-Route::get('/search', function() {
-    return Inertia::render('LoggedInPages/Search');
-})->middleware(['auth', 'verified'])->name('search');
-
-//categories
-Route::get('/categories', function() {
-    $categories = Category::get();
-    return Inertia::render('Posts/Categories')->with(compact(['categories']));
-})->middleware(['auth', 'verified'])->name('categories');
-
-//purchases
-Route::get('/purchases', [PostsController::class, 'purchases'])->middleware(['auth', 'verified'])->name('purchases');
-
-//sales
-Route::get('/sales', [PostsController::class, 'sales'])->middleware(['auth', 'verified'])->name('sales');
-
-//notification
-// Route::get('/notification', function() {
-//     return Inertia::render('LoggedInPages/Notifications');
-// })->middleware(['auth', 'verified'])->name('notification');
-
-//user profile
-Route::get('/profile/{user}', [ProfileController::class, 'index'])->name('profile.show');
-
-Route::get('/search', function() {
-    return Inertia::render('Posts/Search');
-})->name('search');
-
-Route::post('/search', [SearchController::class, 'index'])->name('searchCompletion');
-// Route::get('/search/{searchTerm}', [SearchController::class, 'index'])->name('getSearchCompletion');
-
-// //edit profile
-// Route::get('/profile/{user}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-
-Route::get('/post/create', [PostsController::class, 'create'])->name('post.create');
-Route::post('/post', [PostsController::class, 'store'])->name('post');
-
-Route::get('/post/{post}', [PostsController::class, 'show'])->name('post.show');
-
-Route::post('pay', [PaymentController::class, 'pay'])->name('payment');
-Route::get('success', [PaymentController::class, 'success']);
-Route::get('error', [PaymentController::class, 'error']);
-
-//try to use api for the following functions
-Route::get('/addPostsExplore', [PostsController::class, 'addPostsExplore']);
-Route::get('/addPostsHome', [PostsController::class, 'addPostsHome']);
-Route::get('/addPostsSearch', [SearchController::class, 'addPostsSearch']);
-Route::get('/addPostsCategories', [SearchController::class, 'addPostsCategories']);
-Route::get('/addPostsLiked', [LikesController::class, 'addPostsLiked']);
-
-Route::get('/post/{post}/edit', [PostsController::class, 'edit'])->name('post.edit');
-Route::patch('/post/{post}', [PostsController::class, 'update'])->name('post.update');
-
-
-//filter for categories (use api)
-Route::get('/filter', [SearchController::class, 'categoryIndex']);
-
-//why the name?
-Route::get('/notifications', [NotificationsController::class, 'index'])->name('notifications');
-
-Route::post('/likes', [LikesController::class, 'store'])->name('likes.store');
-
-Route::get('/likedPosts', [LikesController::class, 'index'])->name('likedPosts');
 
 require __DIR__.'/auth.php';
