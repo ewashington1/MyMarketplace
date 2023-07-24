@@ -13,7 +13,6 @@ const EditPost = ({auth, postP, postCategories, categories, owner_id}) => {
         categories: postCategories,
         price: postP.price,
     });
-    console.log(data.categories);
 
     const handleClick = (e, category) => {
         e.preventDefault();
@@ -29,6 +28,8 @@ const EditPost = ({auth, postP, postCategories, categories, owner_id}) => {
 
     const submit = (e) => {
         e.preventDefault();
+
+        console.log(data.categories);
     
         patch(route("post.update", {post: postP.id}), data);
     };

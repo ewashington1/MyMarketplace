@@ -117,7 +117,8 @@ class PostsController extends Controller
         $data = request()->validate([
             'postId' => 'required',
             'price' => 'nullable|numeric',
-            'caption' => 'string|max:191'
+            'caption' => 'string|max:191',
+            'categories' => 'nullable'
         ]);
     
         // Retrieve the post
