@@ -1,6 +1,6 @@
-Live Site: [MyMarketplace](http://ec2-3-21-37-47.us-east-2.compute.amazonaws.com:8000/)
+# Live Site: [MyMarketplace](http://ec2-3-21-37-47.us-east-2.compute.amazonaws.com:8000/)
 
-# Marketplace Project - Instagram, Facebook, and Amazon-inspired
+# MyMarketplace - Instagram, Facebook, and Amazon-inspired
 
 This project is an innovative marketplace that draws inspiration from popular social media platforms such as Instagram and Facebook, as well as e-commerce giant Amazon. It has been developed using Inertia.js with React (JavaScript version) for the front end and Laravel (PHP) for the back end.
 
