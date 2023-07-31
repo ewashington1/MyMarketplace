@@ -32,7 +32,7 @@ This project is an innovative marketplace that draws inspiration from popular so
 
 ## Tech Stack
 
-- Frontend: Inertia.js, React (JavaScript)
+- Frontend: Inertia.js, React (JavaScript), Tailwind CSS
 
 - Backend: Laravel (PHP)
 
