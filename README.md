@@ -6,34 +6,34 @@ This project is an innovative marketplace that draws inspiration from popular so
 
 ## Features
 
-- **User Authentication:** The marketplace allows users to sign up and log in from the homepage, providing a secure and personalized experience.
+-   **User Authentication:** The marketplace allows users to sign up and log in from the homepage, providing a secure and personalized experience.
 
-- **Post Management:** Users can create engaging posts by uploading images, adding captions, assigning categories to their posts, and setting prices for them.
+-   **Post Management:** Users can create engaging posts by uploading images, adding captions, assigning categories to their posts, and setting prices for them.
 
-- **Purchase via PayPal:** The platform supports buying and selling of posts using PayPal, with a sandbox mode for testing. Once a post is bought, ownership is seamlessly transferred to the buyer.
+-   **Purchase via PayPal:** The platform supports buying and selling of posts using PayPal, with a sandbox mode for testing. Once a post is bought, ownership is seamlessly transferred to the buyer.
 
-- **Customizable Profiles:** Users can customize their profiles with profile pictures, bios, names, and usernames, enabling them to express their individuality.
+-   **Customizable Profiles:** Users can customize their profiles with profile pictures, bios, names, and usernames, enabling them to express their individuality.
 
-- **Follow System:** Users can connect with each other by following profiles of interest, fostering a sense of community within the marketplace.
+-   **Follow System:** Users can connect with each other by following profiles of interest, fostering a sense of community within the marketplace.
 
-- **Like Posts:** The platform allows users to express appreciation for posts they find interesting by liking them.
+-   **Like Posts:** The platform allows users to express appreciation for posts they find interesting by liking them.
 
-- **Notifications:** The system generates notifications for users when they gain new followers, sell a post, or receive likes on their posts.
+-   **Notifications:** The system generates notifications for users when they gain new followers, sell a post, or receive likes on their posts.
 
-- **Explore Page:** Users can explore a curated selection of posts on the explore page, providing an excellent way to discover new content.
+-   **Explore Page:** Users can explore a curated selection of posts on the explore page, providing an excellent way to discover new content.
 
-- **Search Functionality:** The project features a robust search functionality that enables users to toggle between searching by user and searching by caption to find specific posts.
+-   **Search Functionality:** The project features a robust search functionality that enables users to toggle between searching by user and searching by caption to find specific posts.
 
-- **Categories Page:** Users can browse posts based on specific categories, filtering content and improving discoverability.
+-   **Categories Page:** Users can browse posts based on specific categories, filtering content and improving discoverability.
 
-- **Liked Posts Tab:** Users have easy access to view all the posts they have liked in a dedicated tab.
+-   **Liked Posts Tab:** Users have easy access to view all the posts they have liked in a dedicated tab.
 
-- **Transaction Logs:** The platform keeps separate records of sold and bought posts for users to track their transactions.
+-   **Transaction Logs:** The platform keeps separate records of sold and bought posts for users to track their transactions.
 
 ## Tech Stack
 
-- Frontend: Inertia.js, React (JavaScript), Tailwind CSS
+-   Frontend: Inertia.js, React (JavaScript), Tailwind CSS
 
-- Backend: Laravel (PHP)
+-   Backend: Laravel (PHP)
 
-- Database: MySQL on Amazon EC2 instance
+-   Database: MySQL on Amazon EC2 instance
