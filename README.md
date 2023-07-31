@@ -36,4 +36,4 @@ This project is an innovative marketplace that draws inspiration from popular so
 
 -   Backend: Laravel (PHP)
 
--   Database: MySQL on Amazon EC2 instance
+-   Database: MySQL on an Amazon EC2 instance
