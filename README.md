@@ -1,4 +1,4 @@
-# Live Site: [MyMarketplace](http://ec2-3-21-37-47.us-east-2.compute.amazonaws.com:8000/)
+# Live Site: Host terminated due to price~~[MyMarketplace](http://ec2-3-21-37-47.us-east-2.compute.amazonaws.com:8000/)~~
 
 # MyMarketplace - Instagram, Facebook, and Amazon-inspired
 
